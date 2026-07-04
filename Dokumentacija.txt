@@ -1,0 +1,16 @@
+1. Pokretanje sajta : 
+	- dvoklik na index.html
+
+2. Ubacivanje CSV fajla : 
+	- na levoj strani sajta se nalazi dugme "Izaberi CSV fajl", klikom na dugme otvara se prozor racunara.
+	- izaberite fajl "VASILIJE ROGANOVIC LIVE 28 01 2026.CSV"
+
+3. Prikaz tabele : 
+	- ako zelite da prikazete tabelu merenja, ispod "Izaberi CSV fajl" dugmeta se nalazi vremenski prozor, gde mozete da izaberete interval merenja i takodje da prikazete tabelu.
+
+4. Biranje kanala : 
+	- u delu "Kanali" mozete da odaberete checkbox koji kanal zelite da prikazete na grafu i tabeli
+	- takodje mozete da izaberete boju za kanal
+5. Prikaz : 
+	- prikaz merenja se nalazi na grafu i u tabeli ispod grafa
+	- takodje se ispod grafa nalaze max, min i prosecna vrednost merenja.

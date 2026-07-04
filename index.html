@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signal — Pregled merenja</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span class="brand-name">SIGNAL</span>
+      </div>
+      <h1 class="hero-title">Pregled merenja senzora</h1>
+      <p class="hero-sub">Učitaj CSV, izaberi vremenski prozor, čitaj signal.</p>
+      <div class="hero-meta">
+        <span id="clock" class="clock">--:--:--</span>
+        <span class="meta-divider">•</span>
+        <span class="author">Uradio: Vasilije Roganović 3/2022</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+  <main class="stage">
+
+    <section class="loader-row">
+      <label class="file-drop" id="fileDrop">
+        <input type="file" id="csvInput" accept=".csv" hidden>
+        <span class="file-drop-icon">⇪</span>
+        <span class="file-drop-text">
+          <strong>Izaberi CSV fajl</strong>
+          <small>ili prevuci fajl ovde</small>
+        </span>
+      </label>
+
+      <div id="status" class="status-pill" data-state="idle">Čeka se fajl…</div>
+    </section>
+
+    <section class="range-row" id="rangeRow">
+      <div class="range-card">
+        <div class="range-card-head">
+          <span class="range-label">Vremenski prozor</span>
+          <span class="range-values" id="rangeValuesLabel">— s do — s</span>
+        </div>
+
+        <div class="range-slider-wrap">
+          <div class="range-track" id="rangeTrack">
+            <div class="range-fill" id="rangeFill"></div>
+          </div>
+          <input type="range" id="fromSlider" class="range-input range-input--from" step="0.01">
+          <input type="range" id="toSlider" class="range-input range-input--to" step="0.01">
+        </div>
+
+        <div class="range-bounds">
+          <span id="boundMin">0 s</span>
+          <span id="boundMax">— s</span>
+        </div>
+
+        <div class="range-actions">
+          <button id="resetRange" class="btn btn-ghost" disabled>↺ Ceo signal</button>
+          <button id="toggleTable" class="btn btn-solid" disabled>▤ Prikaži tabelu</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="channels-row">
+      <div class="panel">
+        <div class="panel-head">
+          <span class="panel-title">Kanali</span>
+          <span class="panel-hint">klikni na boju da je promeniš</span>
+        </div>
+        <div id="seriesList" class="channel-list"></div>
+      </div>
+    </section>
+
+    <section class="chart-row">
+      <div class="panel panel--chart">
+        <canvas id="chart"></canvas>
+      </div>
+    </section>
+
+    <section class="stats-row" id="statsContainer"></section>
+
+    <section class="table-row">
+      <div id="tableContainer" class="panel panel--table hidden"></div>
+    </section>
+
+  </main>
+
+  <aside class="adCol">
+    <div class="adSquare">
+      <span class="adSquare-tag">AD</span>
+      <span>Ovo je mesto za Vašu reklamu.</span>
+    </div>
+    <div class="adSquare">
+      <span class="adSquare-tag">AD</span>
+      <span>Ovo je mesto za Vašu reklamu.</span>
+    </div>
+  </aside>
+  </div>
+
+  <footer class="foot">
+    <span>Signal · analiza CSV merenja u realnom vremenu, sve u browseru</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
