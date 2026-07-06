@@ -605,6 +605,63 @@ tr:hover td{
 
 .hidden{ display: none; }
 
+/* ---------- RESOURCES ---------- */
+
+.resources{
+  border-top: 1px solid var(--panel-line);
+  padding: 32px 24px;
+}
+
+.resources-inner{
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.resources-panel{
+  background:
+    radial-gradient(300px 160px at 0% 0%, rgba(6,214,160,0.12), transparent 60%),
+    radial-gradient(300px 160px at 100% 100%, rgba(165,107,255,0.12), transparent 60%),
+    var(--panel);
+}
+
+.resources-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resources-list li{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--bg-alt);
+  border: 1px solid var(--panel-line);
+}
+
+.resources-icon{
+  color: var(--mint);
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.resources-list a{
+  color: var(--cyan);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.resources-list a:hover{
+  color: var(--lemon);
+  text-decoration: underline;
+}
+
 /* ---------- FOOTER ---------- */
 
 .foot{
