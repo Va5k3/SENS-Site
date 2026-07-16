@@ -796,6 +796,10 @@ const boundMax = document.getElementById("boundMax");
 const resetBtn = document.getElementById("resetRange");
 const toggleTableBtn = document.getElementById("toggleTable");
 
+const downloadCsvBtn = document.getElementById("downloadCsvBtn");
+const downloadTableBtn = document.getElementById("downloadTableBtn");
+const downloadPngBtn = document.getElementById("downloadPngBtn");
+
 const seriesListEl = document.getElementById("seriesList");
 const statsContainer = document.getElementById("statsContainer");
 const tableContainer = document.getElementById("tableContainer");
@@ -807,6 +811,8 @@ let parsedCsv = null;
 let seriesState = [];
 let tableVisible = false;
 let lastFilteredIdx = null;
+let lastRawCsvText = null;
+let lastLoadedFileName = "merenja.csv";
 
 function pad2(n){ return String(n).padStart(2, "0"); }
 
@@ -1138,6 +1144,12 @@ function loadCSVText(text, label){
 
   resetBtn.disabled = false;
   toggleTableBtn.disabled = false;
+  if(downloadCsvBtn) downloadCsvBtn.disabled = false;
+  if(downloadTableBtn) downloadTableBtn.disabled = false;
+  if(downloadPngBtn) downloadPngBtn.disabled = false;
+
+  lastRawCsvText = text;
+  lastLoadedFileName = label || "merenja.csv";
 
   setupSliders(parsedCsv.minSec, parsedCsv.maxSec);
   setStatus(`Učitano: ${label} · ${parsedCsv.rowsCount} merenja`, "ok");
@@ -1197,9 +1209,63 @@ toggleTableBtn.addEventListener("click", () => {
   }
 });
 
+function triggerDownload(blob, filename){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Preuzmi originalni CSV (sirovi fajl, netaknut)
+downloadCsvBtn?.addEventListener("click", () => {
+  if(!lastRawCsvText) return;
+  const blob = new Blob([lastRawCsvText], { type: "text/csv;charset=utf-8" });
+  triggerDownload(blob, lastLoadedFileName || "merenja.csv");
+});
+
+// Preuzmi obrađenu tabelu (trenutno filtrirani i vidljivi kanali, kao CSV)
+downloadTableBtn?.addEventListener("click", () => {
+  if(!parsedCsv) return;
+
+  const rowIdx = lastFilteredIdx ?? [...Array(parsedCsv.rowsCount).keys()];
+  const cols = checkedIndexes();
+
+  const headerLine = ["Vreme (s)", ...cols.map(i => seriesState[i].name)].join(",");
+  const bodyLines = rowIdx.map(r => {
+    const cells = [
+      fmt(parsedCsv.labelSec[r]),
+      ...cols.map(i => {
+        const v = parsedCsv.dataCols[i][r];
+        return v == null ? "" : v;
+      })
+    ];
+    return cells.join(",");
+  });
+
+  const csvOut = [headerLine, ...bodyLines].join("\n");
+  const blob = new Blob([csvOut], { type: "text/csv;charset=utf-8" });
+  triggerDownload(blob, "obradjena_tabela.csv");
+});
+
+// Sačuvaj grafik kao PNG sliku
+downloadPngBtn?.addEventListener("click", () => {
+  if(!chart) return;
+  const url = chart.toBase64Image("image/png", 1);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "grafik.png";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+});
+
 // Automatsko učitavanje merenja pri pokretanju sajta
 try{
-  loadCSVText(EMBEDDED_CSV, "VASILIJE_ROGANOVIC_LIVE_28_01_2026.CSV");
+  loadCSVText(EMBEDDED_CSV, "VASILIJE_ROGANOVIC_LIVE_MERENJA.CSV");
 } catch(err){
   console.error(err);
   setStatus("Greška pri automatskom učitavanju podrazumevanog CSV-a.", "error");
