@@ -372,6 +372,26 @@ body{
   flex-wrap: wrap;
 }
 
+.export-actions{
+  display:flex;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--panel-line);
+  flex-wrap: wrap;
+}
+
+.export-actions .btn{
+  font-size: 12.5px;
+  padding: 8px 14px;
+  color: var(--text-dim);
+}
+
+.export-actions .btn:not(:disabled):hover{
+  border-color: var(--mint);
+  color: var(--mint);
+}
+
 .btn{
   font-family: var(--font-body);
   font-weight: 600;
